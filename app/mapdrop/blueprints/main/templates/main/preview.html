@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapdrop Preview</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    </script>
+    <style type="text/css">
+        body {
+            margin:0;
+        }
+        div#map-wrapper {
+            display: flex;    
+            width:100vw;
+            height:100vh;
+        }
+        div#map-wrapper div {
+            flex-basis: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map-wrapper">
+        <div id="map"></div>
+    </div>
+    <script type="text/javascript">
+        // Default options we'll use for both maps. Se the center of the map,
+        // default zoom levels, and other Leaflet map options here.
+        var options = {
+            center: [52.086331, 4.295077],
+            zoom: 12,
+            attributionControl: false
+        }
+
+        // Create the left and the right map in their respective containers
+        var map = L.map('map', options);
+
+        // Add our tiles to the left map and an openstreetmap layer to the 
+        // right map
+        
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        L.tileLayer('{{ tilelayer_url | safe }}').addTo(map); 
+    </script>
+</body>
+</html>

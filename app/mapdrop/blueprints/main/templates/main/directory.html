@@ -1,0 +1,58 @@
+{% extends "main/base.html" %}
+
+
+{% block header %}
+    <div style="background-color:#e5e5e5;margin-bottom:15px;padding:10px;">
+        <div class="container">
+            <div class="row align-items-center" style="height:60px;">
+                <div class="col-sm-10">
+                    <h1>
+                        <a href="{{ url_for('main.info', path='') }}"><i class="far fa-fw fa-folder" style=""></i></a>{% for comp in path_components %}/<a href="{{url_for('main.info',path=comp.path)}}">{{comp.name}}</a>{% endfor %}
+
+                    </h1>
+
+
+                </div>
+                <div class="col-sm-2 text-right">
+                    <span class="mapdrop-version"><a href="https://www.github.com/kokoalberti/mapdrop">Mapdrop {{mapdrop_version}}</a></span>
+                </div>
+            </div>   
+        </div>
+    </div>  
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <table class='table table-sm directory-table'>
+        <tr>
+            <th colspan="2">
+                {% if num_items == 0 %}
+                    No items found
+                {% endif %}
+                {% if num_items == 1 %}
+                    Found 1 item
+                {% endif %}
+                {% if num_items > 1 %}
+                    Found {{num_items}} items
+                {% endif %}
+            </th>
+        </tr>
+        {% for item in contents %}
+            <tr>
+                <td><i class="{{item.icon}} fa-fw" style="color:#aaa;"></i></td>
+                <td style="width:100%;">
+                    <a href="{{ url_for('main.info', path=item.path) }}" style="margin-left:5px;">{{item.name}}
+                        {% if item.info %}
+                        <span class="item-info">({{item.info}})</span>
+                        {% endif %}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+</div>
+
+{% endblock %}

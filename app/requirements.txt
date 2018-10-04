@@ -1,4 +1,13 @@
+GDAL
 Flask==1.0
+Flask-Redis==0.3
 python-dotenv
 shapely
-GDAL
+pyproj
+epsg-ident
+colour
+numpy
+matplotlib
+mercantile
+python-slugify
+gunicorn

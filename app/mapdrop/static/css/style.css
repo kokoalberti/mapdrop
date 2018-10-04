@@ -1,0 +1,76 @@
+body {
+    margin:0;
+}
+h1 {
+    font-family:monospace;
+    background-color:#e5e5e5;
+    font-size:20px;
+    margin:0;
+    border-radius:0px;
+    display:inline-block;
+}
+h1 a {
+    //color:#0056b3;
+    text-decoration:none;
+}
+h1 a:hover {
+    text-decoration:none;
+}
+h3 {
+    font-size:20px;
+    font-weight:600;
+}
+a.action {
+    font-size:30px;
+    color:#aaa;
+}
+a.action:hover {
+    color:#777;
+}
+div#map {
+    width:100%;
+    height:350px;
+    margin-bottom:15px;
+}
+table.table tr td,
+table.table tr th {
+    padding:8px 0px 8px 0px;
+}
+code a:hover {
+    text-decoration:none;
+}
+
+a:hover {
+    text-decoration:none;
+}
+
+
+table.directory-table {
+    font-size:20px;
+}
+table.directory-table th {
+    font-size:14px;
+    font-weight:normal;
+    border:none;
+}
+table.directory-table a {
+    font-family:monospace;
+}
+table.directory-table td {
+    //border:none;
+}
+
+i.fa-reply, i.fa-reply-all {
+    color:#bbb !important;
+}
+span.item-info {
+    color:#ccc;
+}
+span.mapdrop-version a {
+    color:#aaa;
+    font-size:13px;
+}
+
+span.mapdrop-version a:hover {
+    color:#0056b3;
+}
