@@ -1,0 +1,31 @@
+version: '3'
+services:
+  app:
+    build: ./app/
+    ports:
+      - 8080:8080
+    container_name: mapdrop-app
+    networks:
+      - default
+    volumes:
+      - data_volume:/var/mapdrop
+    environment:
+      - MAPDROP_DATA=/var/mapdrop/data
+      - REDIS_URL=redis://database:6379/0
+      - GUNICORN_CMD_ARGS=--bind=0.0.0.0:8080 --workers=1
+    depends_on:
+      - database
+  database:
+    build: ./database/
+    container_name: mapdrop-database
+    networks:
+      - default
+    volumes:
+      - data_volume:/var/mapdrop
+    ports:
+      - 6379:6379
+networks:
+  default:
+    external: false
+volumes:
+  data_volume:
