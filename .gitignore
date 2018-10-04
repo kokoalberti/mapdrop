@@ -3,3 +3,4 @@ local_settings.py
 __pycache__
 *.pyc
 app/test/*
+tests/sample_files/*
