@@ -230,6 +230,7 @@ class Raster(Dataset):
                 'height':self.ds.RasterYSize
             },
             'layers':self.get_layers(),
+            'gdal_metadata':self.ds.GetMetadata(),
             'type':'raster'
         }
         metadata.update(self.get_extent())
@@ -246,7 +247,8 @@ class Raster(Dataset):
                 'datatype': band.DataType,
                 'nodata': band.GetNoDataValue(),
                 'name': 'b{}'.format(b),
-                'stats':self.get_layer_stats(data)
+                'stats':self.get_layer_stats(data),
+                'gdal_metadata':band.GetMetadata()
             })
         return layers
 
@@ -347,12 +349,15 @@ class Raster(Dataset):
         request_args = kwargs.get("request_args", {})
         im_data = BytesIO()
 
-        if bands == 1:
-            mode = request_args.get("mode", "linear")
+        gdal_metadata = self.metadata.get("gdal_metadata", {})
+        colormap = gdal_metadata.get('mapdrop_colormap') or request_args.get("colormap") or 'Spectral'
+        mode = gdal_metadata.get('mapdrop_mode') or request_args.get("mode") or 'linear'
+        ranges = gdal_metadata.get('mapdrop_ranges') or request_args.get("ranges") or 'min,max'
+
         if bands == 3:
             mode = 'rgb'
 
-        cm = Colormap(colormap=request_args.get("colormap",""), mode=mode, ranges=request_args.get("ranges","min,max"), stats=self.metadata['layers'][0]['stats'])
+        cm = Colormap(colormap=colormap, mode=mode, ranges=ranges, stats=self.metadata['layers'][0]['stats'])
         rgba = cm.rgba(data)
         
         if format == 'png':
@@ -418,12 +423,14 @@ class MapdropFile(object):
 
         try:
             ds = gdal.Open(fullpath)
-            if ds is not None:
+            if ds == None:
+                raise Exception("Can't open file at path: {}".format(path))
+            else:
                 self.ds = Raster(path, ds)
                 self.is_raster = True
                 self.is_vector = False
         except Exception as e:
-            raise Exception("Can't open file: {}".format(e))
+            raise Exception("Can't open file at path: {}".format(path))
 
     @property
     def metadata(self):
